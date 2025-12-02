@@ -1,0 +1,42 @@
+{
+  "meta": { "title": "Device Diagnostics" },
+
+  "facts": [
+    { "predicate": "power", "args": ["unknown"], "source": "initial" },
+    { "predicate": "led-color", "args": ["unknown"], "source": "initial" }
+  ],
+
+  "questions": [
+    {
+      "ask": "power",
+      "question": "Is the device powered on?",
+      "options": ["on", "off"]
+    },
+    {
+      "ask": "led-color",
+      "question": "What is the LED color?",
+      "options": ["green", "yellow", "red"]
+    }
+  ],
+
+  "rules": [
+    {
+      "name": "check-internal-yellow",
+      "salience": 10,
+      "lhs": [
+        { "predicate": "power", "args": ["on"] },
+        { "predicate": "led-color", "args": ["yellow"] }
+      ],
+      "rhs": { "predicate": "state", "args": ["warning"] }
+    },
+
+    {
+      "name": "check-internal-green",
+      "lhs": [
+        { "predicate": "power", "args": ["on"] },
+        { "predicate": "led-color", "args": ["green"] }
+      ],
+      "rhs": { "predicate": "state", "args": ["ok"] }
+    }
+  ]
+}
