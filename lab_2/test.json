@@ -1,0 +1,211 @@
+{
+    "facts": [
+        {"p": "power", "a": ["unknown"]},
+        {"p": "led-color", "a": ["unknown"]},
+        {"p": "internal-state", "a": ["unknown"]}
+    ],
+    "questions": {
+        "q_power": {
+            "question": "Каков статус питания устройства? (on, off, unknown)",
+            "answers": ["on", "off", "unknown"]
+        },
+        "q_led": {
+            "question": "Какого цвета индикатор LED? (red, green, yellow, blue, none, unknown)",
+            "answers": ["red", "green", "yellow", "blue", "none", "unknown"]
+        },
+        "q_internal": {
+            "question": "Каково внутреннее состояние, если LED желтый? (errfile, erraddress, unknown)",
+            "answers": ["errfile", "erraddress", "unknown"]
+        }
+    },
+    "rules": [
+        {
+            "name": "check-power",
+            "priority": 100,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["unknown"],
+                    "ask": "q_power"
+                }
+            ],
+            "rhs": {
+                "p": "system_fact",
+                "a": ["power_requested"]
+            }
+        },
+        {
+            "name": "check-led-color",
+            "priority": 90,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["unknown"],
+                    "ask": "q_led"
+                }
+            ],
+            "rhs": {
+                "p": "system_fact",
+                "a": ["led_requested"]
+            }
+        },
+        {
+            "name": "check-internal-state",
+            "priority": 80,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["yellow"]
+                },
+                {
+                    "p": "internal-state",
+                    "a": ["unknown"],
+                    "ask": "q_internal"
+                }
+            ],
+            "rhs": {
+                "p": "system_fact",
+                "a": ["state_requested"]
+            }
+        },
+        
+        {
+            "name": "diagnose-no-power",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["off"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["Connect the power supply to device"]
+            }
+        },
+        {
+            "name": "diagnose-led-red",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["red"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["CPU malfunction - send the board for CPU reballing"]
+            }
+        },
+        {
+            "name": "diagnose-led-yellow-errfile",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["yellow"]
+                },
+                {
+                    "p": "internal-state",
+                    "a": ["errfile"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["Flash error - reflash device with Stable.bin image"]
+            }
+        },
+        {
+            "name": "diagnose-led-yellow-erraddr",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["yellow"]
+                },
+                {
+                    "p": "internal-state",
+                    "a": ["erraddress"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["Bootloader address fault - reflash device with Recovery.bin image"]
+            }
+        },
+        {
+            "name": "diagnose-led-green-ok",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["green"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["Device fully operational - ready for casing"]
+            }
+        },
+        {
+            "name": "diagnose-led-none",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["none"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["Hardware fault detected - send the board for physical diagnostics"]
+            }
+        },
+        {
+            "name": "diagnose-led-blue",
+            "priority": 10,
+            "lhs": [
+                {
+                    "p": "power",
+                    "a": ["on"]
+                },
+                {
+                    "p": "led-color",
+                    "a": ["blue"]
+                }
+            ],
+            "rhs": {
+                "p": "diagnosis",
+                "a": ["Firmware update process detected"]
+            }
+        }
+    ]
+}
