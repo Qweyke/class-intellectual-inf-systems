@@ -1,0 +1,46 @@
+[ 
+  { "sub": "physical_component", "rel": "is_a", "obj": "part_of_terminal"},
+
+  { "sub": "led", "rel": "is_a", "obj": "physical_component"},
+  { "sub": "led_red", "rel": "is_a", "obj": "led" },
+  { "sub": "led_yellow", "rel": "is_a", "obj": "led" },
+  { "sub": "led_green", "rel": "is_a", "obj": "led" },
+  { "sub": "led_blank", "rel": "is_a", "obj": "led" },
+ 
+  { "sub": "hardware_error", "rel": "causes", "obj": "led_red"},
+  { "sub": "firmware_error", "rel": "causes", "obj": "led_yellow"},
+  { "sub": "failure_free_work", "rel": "causes", "obj":  "led_green"},
+  { "sub": "power_off_state" , "rel": "causes", "obj": "led_blank"},
+
+  { "sub": "voltage_instability", "rel": "causes", "obj": "hardware_error"},
+  { "sub": "logic_freezes", "rel": "causes", "obj": "hardware_error"},
+  { "sub": "no_gsm_connection", "rel": "causes", "obj": "hardware_error"},
+  
+  { "sub": "no_coordinates", "rel": "causes", "obj": "firmware_error"},
+  
+  { "sub": "accumulator", "rel": "is_a", "obj": "physical_component"},
+  { "sub": "damaged_accumulator", "rel": "is_a", "obj": "accumulator"},
+  { "sub": "damaged_accumulator", "rel": "causes", "obj": "voltage_instability"},
+  { "sub": "damaged_accumulator", "rel": "fix_by", "obj": "replace"},
+  { "sub": "dead_accumulator", "rel": "is_a", "obj": "accumulator"},
+  { "sub": "dead_accumulator", "rel": "causes", "obj": "power_off_state"},
+  { "sub": "dead_accumulator", "rel": "fix_by", "obj": "replace"},
+
+  { "sub": "mcu", "rel": "is_a", "obj": "physical_component"},
+  { "sub": "damaged_mcu", "rel": "is_a", "obj": "mcu"},
+  { "sub": "damaged_mcu", "rel": "causes", "obj": "logic_freezes"},
+  { "sub": "damaged_mcu", "rel": "fix_by", "obj": "replace"},
+
+  { "sub": "antenna", "rel": "is_a", "obj": "physical_component" },
+  { "sub": "gps_antenna", "rel": "is_a", "obj": "antenna" },
+  { "sub": "disconnected_antenna", "rel": "is_a", "obj": "gps_antenna" },
+  { "sub": "disconnected_antenna", "rel": "causes", "obj": "no_coordinates" },
+  { "sub": "disconnected_antenna", "rel": "fix_by", "obj": "reconnect" },
+
+  { "sub": "sim_module", "rel": "is_a", "obj": "physical_component" },
+  { "sub": "damaged_sim_module", "rel": "is_a", "obj": "sim_module" },
+  { "sub": "damaged_sim_module", "rel": "causes", "obj": "no_gsm_connection" },
+  { "sub": "damaged_sim_module", "rel": "fix_by", "obj": "replace" }
+
+
+]

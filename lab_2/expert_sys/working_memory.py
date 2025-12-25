@@ -53,10 +53,9 @@ class WorkingMemory:
             return True
         return False
 
-    def remove_fact(self, predicate, args):  # <-- НОВЫЙ МЕТОД
+    def remove_fact(self, predicate, args):
         """Removes a fact matching predicate and args."""
         original_len = len(self.facts)
-        # Использование списочного включения для создания нового списка без совпадающих фактов
         self.facts = [
             f for f in self.facts if not (f.predicate == predicate and f.args == args)
         ]
