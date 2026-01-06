@@ -5,47 +5,56 @@ import numpy as np
 
 
 class Scenario:
-    """Объект-контейнер для одного сценария выборки"""
-
-    def __init__(self, name, candidates, experts, matrix):
+    def __init__(self, name, options, experts, matrix):
         self.name = name
-        self.candidates = candidates
+        self.options = options
         self.experts = experts
         self.matrix = np.array(matrix)
 
 
 class DataProvider:
     def __init__(self, file_path="lab_4/samples.json"):
-        self.file_path = file_path
-        self.scenarios = []
+        self._file_path = file_path
+        self._scenarios = []
+        self.current_scenario = None
         self.load_data()
 
     def load_data(self):
-        """Парсинг JSON и создание объектов Scenario"""
-        if not os.path.exists(self.file_path):
-            print(f"No sample file exists on path {self.file_path}")
+        if not os.path.exists(self._file_path):
+            print(f"No sample file exists on path {self._file_path}")
             return
 
         try:
-            with open(self.file_path, "r", encoding="utf-8") as f:
+            with open(self._file_path, "r", encoding="utf-8") as f:
                 raw_data = json.load(f)
                 for item in raw_data.get("scenarios", []):
                     if len(item["matrix"]) == len(item["experts"]):
-                        scene = Scenario(
+                        scenario = Scenario(
                             item["name"],
-                            item["candidates"],
+                            item["options"],
                             item["experts"],
                             item["matrix"],
                         )
-                        self.scenarios.append(scene)
+                        self._scenarios.append(scenario)
         except Exception as e:
-            print(f"Ошибка при чтении справочника: {e}")
+            print(f"Can't read file: {e}")
+
+    def _get_scenario_by_index(self, index):
+        if 0 <= index < len(self._scenarios):
+            return self._scenarios[index]
+        return None
+
+    def _get_scenario_by_name(self, name):
+        for s in self._scenarios:
+            if s.name == name:
+                return s
+        return None
 
     def get_scenario_names(self):
-        """Возвращает список названий для выпадающего списка в GUI"""
-        return [s.name for s in self.scenarios]
+        return [s.name for s in self._scenarios]
 
-    def get_scenario_by_index(self, index):
-        if 0 <= index < len(self.scenarios):
-            return self.scenarios[index]
-        return None
+    def set_current_scenario(self, name):
+        self.current_scenario = self._get_scenario_by_name(name)
+
+    def get_current_scenario(self):
+        return self.current_scenario

@@ -2,7 +2,7 @@
   "scenarios": [
     {
       "name": "Конфликт Python vs Java",
-      "candidates": ["Python", "Java", "Go", "C++"],
+      "options": ["Python", "Java", "Go", "C++"],
       "experts": ["Senior", "Middle", "Junior", "Manager", "Architect"],
       "matrix": [
         [1, 2, 3, 4],
@@ -14,7 +14,7 @@
     },
     {
       "name": "Цикл Кондорсе (Парадокс)",
-      "candidates": ["Python", "Java", "Go"],
+      "options": ["Python", "Java", "Go"],
       "experts": ["Эксперт A", "Эксперт B", "Эксперт C"],
       "matrix": [
         [1, 2, 3],
