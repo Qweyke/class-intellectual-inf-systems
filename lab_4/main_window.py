@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import Qt
 from data_handler import DataProvider
+from models import DecisionCore
 
 
 class ExpertSystemUI(QMainWindow):
@@ -64,7 +65,7 @@ class ExpertSystemUI(QMainWindow):
     def _update_table(self):
         current_scenario = self._dp.get_current_scenario()
         if current_scenario is None:
-            self.results_output.append(f"Error: Current scenario is empty")
+            QMessageBox.warning(self, "Error", "Current scenario is empty")
             return
 
         self.table.setColumnCount(len(current_scenario.options))
@@ -90,14 +91,47 @@ class ExpertSystemUI(QMainWindow):
             False,
         )
         if (not ok) or (s_name is None):
-            self.results_output.append(f"Error: Bad scenario choice")
+            QMessageBox.warning(self, "Error", "Bad scenario choice")
             return
 
-        self.results_output.append(f"Chosen scenario: {s_name}")
+        self.results_output.append(f"Chosen scenario: {s_name}\n")
         self._dp.set_current_scenario(s_name)
         self._update_table()
 
     def run_calculation(self):
-        if self._dp.get_current_scenario() is None:
+        current_scenario = self._dp.get_current_scenario()
+        if current_scenario is None:
             QMessageBox.warning(self, "Error", "No scenario chosen")
             return
+
+        self.results_output.clear()
+
+        core = DecisionCore(current_scenario)
+
+        report = []
+        report.append(f"=== ANALYZING SCENARIO: {current_scenario.name} ===\n")
+
+        report.append("--- 1. PLURALITY MODEL ---")
+        report.append(core.plurality_model())
+        report.append("-" * 30 + "\n")
+
+        report.append("--- 2. CONDORCET METHODS ---")
+        report.append("[2.1 Clear Winner]")
+        report.append(core.condorcet_clear_winner_rule())
+        report.append("")
+
+        report.append("[2.2 Copeland Rule]")
+        report.append(core.condorcet_copeland_rule())
+        report.append("")
+
+        report.append("[2.3 Simpson (Minimax) Rule]")
+        report.append(core.condorcet_simpson_rule())
+
+        report.append("--- 3. BORDA COUNT MODEL ---")
+        report.append(core.borda_model())
+        report.append("-" * 30 + "\n")
+
+        report.append("\n" + "=" * 40)
+
+        full_text = "\n".join(report)
+        self.results_output.append(full_text)
