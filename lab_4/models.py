@@ -58,7 +58,7 @@ class DecisionCore:
             for j in range(i + 1, n):
                 opt_i = self._scenario.options[i]
                 opt_j = self._scenario.options[j]
-                explanation += f"• {opt_i} vs {opt_j}: {self._condorcet_matrix[i][j]} - {self._condorcet_matrix[j][i]}\n"
+                explanation += f"{opt_i} vs {opt_j}: {self._condorcet_matrix[i][j]} - {self._condorcet_matrix[j][i]}\n"
 
         winner_idx = None
 
@@ -166,6 +166,7 @@ class DecisionCore:
                 f"of support among all candidates ({max_min_support} vote(s))."
             )
 
+        explanation += f"\n\n{self._condorcet_matrix}"
         return explanation
 
     def borda_model(self):
@@ -185,7 +186,7 @@ class DecisionCore:
                 total_points += points
 
             borda_scores[i] = total_points
-            explanation += f"• {opt_name}: {total_points} total points\n"
+            explanation += f"{opt_name}: {total_points} total points\n"
 
         max_score = max(borda_scores)
         winners_ids = [idx for idx, val in enumerate(borda_scores) if val == max_score]
