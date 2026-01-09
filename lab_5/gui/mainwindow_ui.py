@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QHBoxLayout,
-    QLabel, QMainWindow, QPushButton, QSizePolicy,
-    QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
+    QHBoxLayout, QLabel, QMainWindow, QPushButton,
+    QSizePolicy, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -72,13 +72,32 @@ class Ui_MainWindow(object):
         self.learn_tab.setObjectName(u"learn_tab")
         self.verticalLayout_2 = QVBoxLayout(self.learn_tab)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.obj_box = QComboBox(self.learn_tab)
+        self.obj_box.setObjectName(u"obj_box")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.obj_box.sizePolicy().hasHeightForWidth())
+        self.obj_box.setSizePolicy(sizePolicy2)
+
+        self.verticalLayout_2.addWidget(self.obj_box)
+
         self.accept_btn = QPushButton(self.learn_tab)
         self.accept_btn.setObjectName(u"accept_btn")
+        self.accept_btn.setEnabled(False)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.accept_btn.sizePolicy().hasHeightForWidth())
+        self.accept_btn.setSizePolicy(sizePolicy3)
 
         self.verticalLayout_2.addWidget(self.accept_btn)
 
         self.auto_check = QCheckBox(self.learn_tab)
         self.auto_check.setObjectName(u"auto_check")
+        sizePolicy3.setHeightForWidth(self.auto_check.sizePolicy().hasHeightForWidth())
+        self.auto_check.setSizePolicy(sizePolicy3)
+        self.auto_check.setChecked(True)
 
         self.verticalLayout_2.addWidget(self.auto_check)
 

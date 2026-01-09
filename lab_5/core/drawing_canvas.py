@@ -4,13 +4,16 @@ from PySide6.QtCore import Qt
 
 
 class DrawingCanvas(QWidget):
-    def __init__(self, parent=None, grid_size=20, cell_size=20):
+    def __init__(self, parent, grid_size, cell_size=20):
         super().__init__(parent)
         self.grid_size = grid_size
         self.cell_size = cell_size
         self.grid = [[0 for _ in range(grid_size)] for _ in range(grid_size)]
 
         self.setFixedSize(grid_size * cell_size, grid_size * cell_size)
+
+    def get_grid_size(self):
+        return self.grid_size * self.grid_size
 
     def paintEvent(self, event):
         painter = QPainter(self)
