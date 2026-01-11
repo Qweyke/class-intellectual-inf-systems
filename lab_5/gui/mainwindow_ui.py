@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
-    QHBoxLayout, QLabel, QMainWindow, QPushButton,
-    QSizePolicy, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QMainWindow, QPushButton, QSizePolicy,
+    QStatusBar, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -35,9 +35,11 @@ class Ui_MainWindow(object):
         self.centralwidget.setSizePolicy(sizePolicy)
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
@@ -53,13 +55,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.determine_btn)
 
-        self.clear_btn = QPushButton(self.determine_tab)
-        self.clear_btn.setObjectName(u"clear_btn")
-        sizePolicy1.setHeightForWidth(self.clear_btn.sizePolicy().hasHeightForWidth())
-        self.clear_btn.setSizePolicy(sizePolicy1)
-
-        self.verticalLayout.addWidget(self.clear_btn)
-
         self.res_label = QLabel(self.determine_tab)
         self.res_label.setObjectName(u"res_label")
         sizePolicy1.setHeightForWidth(self.res_label.sizePolicy().hasHeightForWidth())
@@ -74,7 +69,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.obj_box = QComboBox(self.learn_tab)
         self.obj_box.setObjectName(u"obj_box")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.obj_box.sizePolicy().hasHeightForWidth())
@@ -84,26 +79,56 @@ class Ui_MainWindow(object):
 
         self.accept_btn = QPushButton(self.learn_tab)
         self.accept_btn.setObjectName(u"accept_btn")
-        self.accept_btn.setEnabled(False)
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.accept_btn.sizePolicy().hasHeightForWidth())
-        self.accept_btn.setSizePolicy(sizePolicy3)
+        self.accept_btn.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.accept_btn.sizePolicy().hasHeightForWidth())
+        self.accept_btn.setSizePolicy(sizePolicy1)
 
         self.verticalLayout_2.addWidget(self.accept_btn)
 
-        self.auto_check = QCheckBox(self.learn_tab)
-        self.auto_check.setObjectName(u"auto_check")
-        sizePolicy3.setHeightForWidth(self.auto_check.sizePolicy().hasHeightForWidth())
-        self.auto_check.setSizePolicy(sizePolicy3)
-        self.auto_check.setChecked(True)
+        self.teach_btn = QPushButton(self.learn_tab)
+        self.teach_btn.setObjectName(u"teach_btn")
+        sizePolicy1.setHeightForWidth(self.teach_btn.sizePolicy().hasHeightForWidth())
+        self.teach_btn.setSizePolicy(sizePolicy1)
+        self.teach_btn.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+"background-color: rgb(170, 0, 0);")
 
-        self.verticalLayout_2.addWidget(self.auto_check)
+        self.verticalLayout_2.addWidget(self.teach_btn)
+
+        self.accuracy_btn = QPushButton(self.learn_tab)
+        self.accuracy_btn.setObjectName(u"accuracy_btn")
+        sizePolicy1.setHeightForWidth(self.accuracy_btn.sizePolicy().hasHeightForWidth())
+        self.accuracy_btn.setSizePolicy(sizePolicy1)
+        self.accuracy_btn.setStyleSheet(u"background-color: rgb(85, 170, 127);\n"
+"color: rgb(255, 255, 255);\n"
+"")
+
+        self.verticalLayout_2.addWidget(self.accuracy_btn)
+
+        self.display_btn = QPushButton(self.learn_tab)
+        self.display_btn.setObjectName(u"display_btn")
+        sizePolicy1.setHeightForWidth(self.display_btn.sizePolicy().hasHeightForWidth())
+        self.display_btn.setSizePolicy(sizePolicy1)
+        self.display_btn.setStyleSheet(u"background-color: rgb(85, 85, 255);\n"
+"color: rgb(255, 255, 255);")
+
+        self.verticalLayout_2.addWidget(self.display_btn)
 
         self.tabWidget.addTab(self.learn_tab, "")
 
-        self.horizontalLayout.addWidget(self.tabWidget)
+        self.verticalLayout_3.addWidget(self.tabWidget)
+
+        self.clear_btn = QPushButton(self.centralwidget)
+        self.clear_btn.setObjectName(u"clear_btn")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.clear_btn.sizePolicy().hasHeightForWidth())
+        self.clear_btn.setSizePolicy(sizePolicy3)
+
+        self.verticalLayout_3.addWidget(self.clear_btn)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout_3)
 
         self.canvas_frame = QFrame(self.centralwidget)
         self.canvas_frame.setObjectName(u"canvas_frame")
@@ -114,6 +139,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.canvas_frame)
 
         MainWindow.setCentralWidget(self.centralwidget)
+        self.statusBar = QStatusBar(MainWindow)
+        self.statusBar.setObjectName(u"statusBar")
+        MainWindow.setStatusBar(self.statusBar)
 
         self.retranslateUi(MainWindow)
 
@@ -129,11 +157,13 @@ class Ui_MainWindow(object):
         self.determine_btn.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Press to plot chosen function</p></body></html>", None))
 #endif // QT_CONFIG(whatsthis)
         self.determine_btn.setText(QCoreApplication.translate("MainWindow", u"Identify", None))
-        self.clear_btn.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
         self.res_label.setText(QCoreApplication.translate("MainWindow", u"Result: None", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.determine_tab), QCoreApplication.translate("MainWindow", u"Identify", None))
         self.accept_btn.setText(QCoreApplication.translate("MainWindow", u"Accept drawing", None))
-        self.auto_check.setText(QCoreApplication.translate("MainWindow", u"Auto confirm", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.learn_tab), QCoreApplication.translate("MainWindow", u"Teach", None))
+        self.teach_btn.setText(QCoreApplication.translate("MainWindow", u"Reteach model", None))
+        self.accuracy_btn.setText(QCoreApplication.translate("MainWindow", u"Check accuracy", None))
+        self.display_btn.setText(QCoreApplication.translate("MainWindow", u"Display samples", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.learn_tab), QCoreApplication.translate("MainWindow", u"Learning", None))
+        self.clear_btn.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
     # retranslateUi
 
